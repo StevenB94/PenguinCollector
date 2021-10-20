@@ -23,14 +23,17 @@
     </div>
   </div>
   <div class="col s6">
-	
-	<form method='POST' action="{% url 'add_feeding' penguin.id %}">
-		{% csrf_token %}
-		{{ feeding_form.as_p }}
-		<input type="submit" btn='btn' value='Add Feeding'>
-	</form>
-
-
+    <form action="{% url 'add_feeding' penguin.id %}" method="post">
+      {% csrf_token %}
+      {{ feeding_form.as_p }}
+      <input type="submit" class="btn" value="Add Feeding">
+    </form>
+    <br>
+    {% if penguin.fed_for_today %}
+      <div class="card-panel teal-text center-align">{{penguin.name}} has been fed all meals for today</div>
+    {% else %}
+      <div class="card-panel red-text center-align">{{penguin.name}} might be hungry</div>
+    {% endif %}
     <table class="striped">
       <thead>
         <tr><th>Date</th><th>Meal</th></tr>
@@ -46,9 +49,10 @@
     </table>
   </div>
 </div>
-
+<!-- JS to create a date picker and init the meal dropdown -->
 <script>
-  const dateEl = document.getElementById('id_date');
+  // create a datepicker
+  var dateEl = document.getElementById('id_date');
   M.Datepicker.init(dateEl, {
     format: 'yyyy-mm-dd',
     defaultDate: new Date(),
@@ -56,12 +60,8 @@
     autoClose: true
   });
 
-  const selectEl = document.getElementById('id_meal');
-  M.FormSelect.init(selectEl)
+  // initialize the meal select
+  var selectEl = document.getElementById('id_meal');
+  M.FormSelect.init(selectEl);
 </script>
-
-
-
-
-
 {% endblock %}
