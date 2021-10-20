@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- we get the object from the Update CBV -->
+{% if object %}
+	<h1>Edit <span class="te">{{object.name}}</span></h1>
+{% else %}
+	<h1>Add Penguin</h1>
+{% endif %}
+	<!-- Leave the action blank, because the form will make a post to the same url 
+	that was used to display which is what?  http://localhost:8000/cats/create/-->
+	<form action="" method="post">
+		{% csrf_token %}
+		<!-- Django injects this token into every template, 
+		we include on the form, 
+		when we submit django internally looks to see if csrf token was manipulated
+		if it was django won't accept the request -->
+		<!-- ON every form you need to include the csrf token -->
+		<!-- Django requires for security purposes, prevents sql injections/Cross site request for -->
+		<table>
+			{{ form.as_table }}
+			<!-- We get the form variable for free from the CatCreate CBV (Class based views)
+			form will have the inputs of whatever we define in the fields 
+			property of our CBV -->
+		</table>
+		<input type="submit" value="Submit!" class='btn'>
+	</form>
+
+
+
+{% endblock %}
+	
