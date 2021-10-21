@@ -7,7 +7,7 @@ from .forms import FeedingForm
 
 class PenguinCreate(CreateView):
     model = Penguin
-    fields = '__all__'
+    fields = ['name', 'breed', 'description', 'age']
 
 class PenguinUpdate(UpdateView):
   model = Penguin
