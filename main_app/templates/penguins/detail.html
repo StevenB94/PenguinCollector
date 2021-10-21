@@ -13,7 +13,7 @@
         {% if penguin.age > 0 %}
           <p>Age: {{ penguin.age }}</p>
         {% else %}
-          <p>Age: Chick</p>
+          <p>Age: Kitten</p>
         {% endif %}
       </div>
       <div class="card-action">
@@ -49,6 +49,57 @@
     </table>
   </div>
 </div>
+
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ penguin.name }}'s Toys</h3>
+    {% if penguin.toys.count %}
+      {% for toy in penguin.toys.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'unassoc_toy' penguin.id toy.id %}" method="post">
+                {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Toys :(</h5>
+    {% endif %}
+  </div>
+  <!-- Available toys will come after this line -->
+  <div class="col s6">
+    <h3>Available Toys</h3>
+    {% if toys.count %}
+      {% for toy in toys.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_toy' penguin.id toy.id %}" method="post">
+                {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{penguin.name}} Already Has All Toys Available</h5>
+    {% endif %}
+  </div>
+</div>
+
+
 <!-- JS to create a date picker and init the meal dropdown -->
 <script>
   // create a datepicker
